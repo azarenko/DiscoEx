@@ -1,0 +1,822 @@
+// Generated .IDL file (by the OLE/COM Object Viewer)
+// 
+// typelib filename: DiscoAPI.dll
+
+[
+  uuid(F87342D6-65C5-4C49-8CAE-FF3B0F95ED9F),
+  version(1.0),
+  helpstring("DiscoAPI 1.0 Type Library")
+]
+library DiscoAPILib
+{
+    // TLib :     // TLib : OLE Automation : {00020430-0000-0000-C000-000000000046}
+    importlib("stdole2.tlb");
+
+    // Forward declare all types defined in this typelib
+    dispinterface _IRCEvents;
+    interface IDevice;
+    interface IOscilloscope;
+    interface ILogicAnalyzer;
+    interface ISerialPort;
+    interface IScanMaster;
+    interface ISerial;
+    interface ISynchronizer;
+    interface ILoader;
+    interface IMultiscope;
+    interface IMMKey;
+    interface IBusControl;
+    interface IIRReceiver;
+
+    [
+      uuid(D83210DC-A10C-4F9C-96FD-8BDA6A528217)
+    ]
+    dispinterface _IRCEvents {
+        properties:
+        methods:
+            [id(0x00000001), helpstring("method OnNewCommand")]
+            void OnNewCommand(BSTR command);
+    };
+
+    [
+      uuid(91AEAEB1-CB8B-4BAE-8300-14C6F73A6D89),
+      helpstring("CoDiscoAPI Class")
+    ]
+    coclass CoDiscoAPI {
+        [default] interface IDevice;
+        interface IOscilloscope;
+        interface ILogicAnalyzer;
+        interface ISerialPort;
+        interface IScanMaster;
+        interface ISerial;
+    };
+
+    typedef enum {
+        NormalAutoUpdate = 0,
+        DisableAutoUpdate = 1,
+        MandatoryUpdate = 2
+    } DeviceUpdateMode;
+
+    typedef enum {
+        DeviceOpenModeAttachOrOpen = 0,
+        DeviceOpenModeAttach = 1,
+        DeviceOpenModeOpen = 2
+    } DeviceOpenMode;
+
+
+    [
+      odl,
+      uuid(358BCFF4-85B8-4199-A7A1-63450E64A978),
+      helpstring("IDevice interface")
+    ]
+    interface IDevice : IUnknown {
+        [helpstring("Initializes the oscilloscope API")]
+        HRESULT _stdcall Init(
+                        [in] int initParam, 
+                        [in] DeviceUpdateMode updateMode, 
+                        [out, retval] VARIANT_BOOL* funcResult);
+        [helpstring("Uninitializes the oscilloscope API")]
+        HRESULT _stdcall Uninit();
+        [helpstring("Retrives the device status")]
+        HRESULT _stdcall IsDeviceConnected([out, retval] VARIANT_BOOL* funcResult);
+        [helpstring("Returns firmware version in 'X.X (DD/MM/YY)' format")]
+        HRESULT _stdcall GetFirmwareVersion([out, retval] BSTR* ver);
+        [helpstring("Emulates disconnection of the device. Must be called in the destructor of the ActiveX control")]
+        HRESULT _stdcall ResetDevice();
+        [helpstring("Service function")]
+        HRESULT _stdcall Transfer(
+                        unsigned long pipeNum, 
+                        unsigned long read, 
+                        unsigned long options, 
+                        unsigned char* buffer, 
+                        unsigned long bufferSize, 
+                        unsigned long* bytesTransferred, 
+                        unsigned char* setupPacket, 
+                        unsigned long timeOut, 
+                        [out, retval] unsigned long* error);
+        [helpstring("Reserved")]
+        HRESULT _stdcall Status(
+                        [in] int param, 
+                        [out, retval] int* ret);
+        [helpstring("Returns a product link name")]
+        HRESULT _stdcall GetLinkName([out, retval] BSTR* linkName);
+        [helpstring("Returns a device serial")]
+        HRESULT _stdcall Serial([out, retval] BSTR* Serial);
+        [helpstring("Returns a device GUID")]
+        HRESULT _stdcall GetDeviceGUID([out, retval] BSTR* guidStr);
+        [helpstring("Enables a log")]
+        HRESULT _stdcall EnableLog(
+                        [in] VARIANT_BOOL enable, 
+                        [out, retval] VARIANT_BOOL* funcResult);
+        [helpstring("Exports a log")]
+        HRESULT _stdcall ExportLog([out, retval] VARIANT_BOOL* funcResult);
+        [helpstring("Initializes the oscilloscope API v.2")]
+        HRESULT _stdcall InitEx(
+                        [in] BSTR* deviceSerial, 
+                        [in] BSTR* deviceGUID, 
+                        [in] DeviceOpenMode openMode, 
+                        [in] DeviceUpdateMode updateMode, 
+                        [out, retval] VARIANT_BOOL* funcResult);
+        [helpstring("Upload firmware")]
+        HRESULT _stdcall UploadFirmware(
+                        [in] BSTR* firmwarePath, 
+                        [out, retval] VARIANT_BOOL* funcResult);
+        HRESULT _stdcall Exchange(
+                        [in] unsigned char bRequest, 
+                        [in] unsigned short wValue, 
+                        [in] unsigned short wIndex, 
+                        [in] unsigned char* sendData, 
+                        [in] unsigned short sendDataLength, 
+                        [in] unsigned char* receiveData, 
+                        [in] unsigned short receiveDataMaxLength, 
+                        [in] unsigned long receiveTimeout, 
+                        [out, retval] unsigned short* receivedLength);
+    };
+ 
+	   typedef enum {
+        A = 0,
+        B = 1,
+        Sync = 2
+    } Channel;
+
+    typedef enum {
+        Never = 0,
+        Immediate = 1,
+        AbsoluteRisingEdge = 2,
+        AbsoluteFallingEdge = 3,
+        DifferentialRisingEdge = 4,
+        DifferentialFallingEdge = 5,
+        AbsoluteRisingSigma = 6,
+        AbsoluteFallingSigma = 7,
+        AbsoluteBothSigma = 8,
+        BusARisingEdge = 9,
+        BusAFallingEdge = 10
+    } OscTriggerType;
+
+    typedef enum {
+        Off = 0,
+        On = 1
+    } OnOff;
+
+    typedef enum {
+        Buff = 0,
+        Pipe = 1
+    } PipeMode;
+
+    typedef enum {
+        Falling = 0,
+        Rising = 1
+    } TriggerEdge;
+
+    typedef enum {
+        ChannelA = 0,
+        ChannelB = 1,
+        External = 2
+    } TriggerSource;
+
+    typedef enum {
+        Absolute = 0,
+        Differential = 1
+    } TriggerType;
+
+    typedef enum {
+        HzX10 = 0,
+        HzX1 = 1
+    } TimerMultiplier;
+
+    typedef enum {
+        StatAvg = 0,
+        StatSigma = 1,
+        StatMin = 2,
+        StatMax = 3,
+        StatNoiseAvg = 4,
+        StatNoiseSigma = 5,
+        StatNoiseMin = 6,
+        StatNoiseMax = 7
+    } StatParam;
+
+    typedef enum {
+        Dec1to8 = 0,
+        Dec1to4 = 1,
+        Dec1to2 = 2,
+        Dec1to1 = 3,
+        Dec2to1 = 4,
+        Dec4to1 = 5,
+        Dec8to1 = 6
+    } Decimation;
+
+    [
+      odl,
+      uuid(CB06683A-8E13-4DC2-B2D5-B00C893684AE),
+      helpstring("IOscilloscope Interface")
+    ]
+    interface IOscilloscope : IUnknown {
+        [helpstring("Get a synchronization GUID")]
+        HRESULT _stdcall GetSynchroGUID([out, retval] BSTR* synchroGUID);
+        [helpstring("Set a synchronization GUID")]
+        HRESULT _stdcall SetSynchroGUID(
+                        [in] BSTR* synchroGUID, 
+                        [out, retval] VARIANT_BOOL* funcResult);
+        [helpstring("Clear a synchro event")]
+        HRESULT _stdcall ClearSynchroEvent();
+        [helpstring("Set streaming pause via synchronization GUID")]
+        HRESULT _stdcall SetStreamingPause();
+        [helpstring("Clear streaming pause via synchronization GUID")]
+        HRESULT _stdcall ClearStreamingPause();
+        [helpstring("Set a size of the part readed from device, should be multiple of 5")]
+        HRESULT _stdcall SetStreamDataPartSize(
+                        [in] int dataPartSize, 
+                        [out, retval] VARIANT_BOOL* funcResult);
+        [helpstring("Set streaming buffer options")]
+        HRESULT _stdcall SetStreamingBuffersOptions(
+                        [in] int preBufferSize, 
+                        [in] int synchroBufferSize);
+        [helpstring("Set streaming data options")]
+        HRESULT _stdcall SetStreamingDataOptions([in] VARIANT_BOOL waitForFullPreBuffer);
+        [helpstring("Start streaming data")]
+        HRESULT _stdcall StartStreamingData();
+        [helpstring("Flush buffers, clear synchro event and restart streaming data")]
+        HRESULT _stdcall RestartStreaming();
+        [helpstring("Stop streaming data and reset the device")]
+        HRESULT _stdcall StopStreaming();
+        [helpstring("Return synchronization status of the device")]
+        HRESULT _stdcall IsSynchro([out, retval] VARIANT_BOOL* funcResult);
+        [helpstring("Return the global synchronization status of devices")]
+        HRESULT _stdcall IsDataReady([out, retval] VARIANT_BOOL* ready);
+        [helpstring("Return a preBuffer index and a synchro index in the streamed data")]
+        HRESULT _stdcall GetSynchroIndexes(
+                        [out] long* preBufferStartIndex, 
+                        [out] long* synchroIndex, 
+                        [out, retval] VARIANT_BOOL* funcResult);
+        [helpstring("Return the current sample count")]
+        HRESULT _stdcall GetSampleCount([out, retval] int* count);
+        [helpstring("Extract data for the specific channel from the application memory buffer. The buffer size is 256 for Pipe mode and 704 for Buffer mode.")]
+        HRESULT _stdcall GetChannelData(
+                        [in, out] SAFEARRAY(double) buffer, 
+                        [in, out] int* bufferSize, 
+                        Channel Channel);
+        [helpstring("Return a sample by index from the specifyed channel")]
+        HRESULT _stdcall GetChannelSample(
+                        int index, 
+                        Channel Channel, 
+                        [out, retval] double* data);
+        HRESULT _stdcall GetChannelDataArray(
+                        [in] Channel Channel, 
+                        [out] double* buffer, 
+                        [in] long from, 
+                        [in] int bufferLength, 
+                        [out, retval] int* funcResult);
+        [helpstring("Return a voltage")]
+        HRESULT _stdcall SetChannelDataArray(
+                        [in] Channel Channel, 
+                        [in] double* buffer, 
+                        [in] long from, 
+                        [in] int bufferLength, 
+                        [out, retval] int* funcResult);
+        [helpstring("Return a voltage")]
+        HRESULT _stdcall GetVoltage(
+                        Channel Channel, 
+                        [out, retval] double* data);
+        [helpstring("Set all triggers to the IMMEDIATE mode")]
+        HRESULT _stdcall SetImmediateTriggerMode();
+        [helpstring("Set all triggers to the NEVER mode")]
+        HRESULT _stdcall SetDependedTriggerMode();
+        [helpstring("Set a trigger mode of the channel")]
+        HRESULT _stdcall SetTrigger(
+                        [in] Channel Channel, 
+                        [in] OscTriggerType trigger, 
+                        [in] double triggerValue, 
+                        [out, retval] VARIANT_BOOL* funcResult);
+        [helpstring("A on, B off by default")]
+        HRESULT _stdcall SetChannelOnOff(
+                        [in] Channel Channel, 
+                        [in] OnOff OnOff);
+        HRESULT _stdcall SetPipeMode([in] PipeMode mode);
+        [helpstring("false by default")]
+        HRESULT _stdcall SetPipeBufferSize([in] int size);
+        [helpstring("Buffer size for pipe mode in bytes")]
+        HRESULT _stdcall UseTrigger([in] VARIANT_BOOL UseTrigger);
+        HRESULT _stdcall SetTriggerEdge([in] TriggerEdge edge);
+        HRESULT _stdcall SetTriggerSource([in] TriggerSource src);
+        HRESULT _stdcall SetTriggerType([in] TriggerType type);
+        [helpstring("0.0 Volts by default")]
+        HRESULT _stdcall SetTriggerLevel(
+                        [in] Channel Channel, 
+                        [in] double level);
+        [helpstring("0.5 Volts by default")]
+        HRESULT _stdcall SetDiffTriggerLevel([in] double level);
+        [helpstring("false by default")]
+        HRESULT _stdcall UseExtrenalClock([in] VARIANT_BOOL extClock);
+        HRESULT _stdcall SetTimerMultiplier([in] TimerMultiplier multiplier);
+        [helpstring("Time base in seconds. 0.0001s by default. Use this or SetSamplingFrequency")]
+        HRESULT _stdcall SetTimeBase([in] double timeBase);
+        [helpstring("Sampling frequency in Hz. 10 KHz by default. Use this or SetTimeBase")]
+        HRESULT _stdcall SetSamplingFrequency([in] double samplingFrequency);
+        [helpstring("Set vertical gain/attenuation. 20V by default.")]
+        HRESULT _stdcall SetChannelMaxGain(
+                        [in] Channel Channel, 
+                        [in] double voltage);
+        [helpstring("method GetSyncMark")]
+        HRESULT _stdcall GetSyncMark(
+                        [in] Channel Channel, 
+                        [in] long MarkIndex, 
+                        [out] long* mark);
+        [helpstring("method SetSyncMark")]
+        HRESULT _stdcall SetSyncMark(
+                        [in] Channel Channel, 
+                        [in] long MarkIndex, 
+                        [in] long mark);
+        [helpstring("method GetMarkCount")]
+        HRESULT _stdcall GetMarkCount(
+                        [in] Channel Channel, 
+                        [out] long* markCount);
+        [helpstring("method GetChannelStatParam")]
+        HRESULT _stdcall GetChannelStatParam(
+                        [in] StatParam StatParam, 
+                        [in] Channel Channel, 
+                        [out, retval] double* value);
+        [helpstring("method SetChannelSyncSkip")]
+        HRESULT _stdcall SetChannelSyncSkip(
+                        [in] Channel Channel, 
+                        [in] int syncSkip);
+        [helpstring("method SetDecimation")]
+        HRESULT _stdcall SetDecimation([in] Decimation Decimation);
+        [helpstring("method ReSync")]
+        HRESULT _stdcall ReSync();
+        [helpstring("method Clear")]
+        HRESULT _stdcall ClearData();
+        [helpstring("method SetChannelClosed")]
+        HRESULT _stdcall SetChannelClosed(
+                        [in] Channel Channel, 
+                        [in] VARIANT_BOOL closed);
+    };
+
+	
+    typedef enum {
+        Buff8M = 0,
+        Buff6M = 1,
+        Buff4M = 2,
+        Buff3M = 3,
+        Buff2M = 4,
+        Buff1M = 5,
+        LanPipe = 6
+    } LanReadingMode;
+
+    [
+      odl,
+      uuid(CF69C7C8-A84A-479F-9F67-ED20E7E9D8C8),
+      helpstring("ILogicAnalyzer Interface")
+    ]
+    interface ILogicAnalyzer : IUnknown {
+        HRESULT _stdcall LanSetPipeMode([in] LanReadingMode mode);
+        [helpstring("Extract data for the specific channel from the application memory buffer. The buffer size is 256 for Pipe mode and ... for Buffer mode.")]
+        HRESULT _stdcall LanGetStreamingData(
+                        [in, out] SAFEARRAY(int) buffer, 
+                        [in, out] int* bufferSize);
+        HRESULT _stdcall LanStopStreaming();
+        [helpstring("Time base in seconds. 0.0001s by default Use this or SetSamplingFrequency")]
+        HRESULT _stdcall LanSetTimeBase([in] double timeBase);
+        [helpstring("Sampling frequency in Hz. 100 KHz by default.")]
+        HRESULT _stdcall LanSetSamplingFrequency([in] double samplingFrequency);
+        HRESULT _stdcall LanSetPort(
+                        [in] Channel Channel, 
+                        [in] unsigned char value);
+        HRESULT _stdcall LanGetPort(
+                        [in] Channel Channel, 
+                        [out] unsigned char* value);
+        HRESULT _stdcall Test2();
+        HRESULT _stdcall GenSetData(
+                        [in] char value, 
+                        [in] int index);
+        HRESULT _stdcall GenWriteData();
+        HRESULT _stdcall GenSetLength([in] int len);
+        HRESULT _stdcall GenSetLoopStart([in] int start);
+        [helpstring("Run generation")]
+        HRESULT _stdcall GenRun([in] int loopCount);
+        [helpstring("Set keep out")]
+        HRESULT _stdcall GenKeepOut([in] VARIANT_BOOL keepOut);
+    };
+
+	typedef enum {
+        NoneParity = 0,
+        Even = 1,
+        Odd = 2,
+        mark = 3,
+        Space = 4
+    } SerialPortParity;
+
+    typedef enum {
+        NoneOptions = 0,
+        Receive9thBit = 1
+    } SerialPortOptions;
+
+    typedef enum {
+        Normal = 0,
+        FastIni = 1
+    } SerialPortPacketType;
+
+    [
+      odl,
+      uuid(92108E26-E773-4B46-A863-9915711A0409),
+      helpstring("ISerialPort Interface")
+    ]
+    interface ISerialPort : IUnknown {
+        [helpstring("Open serial port")]
+        HRESULT _stdcall Open(
+                        [in] int baudrate, 
+                        [out, retval] VARIANT_BOOL* funcResult);
+        [helpstring("Close serial port")]
+        HRESULT _stdcall Close([out, retval] VARIANT_BOOL* funcResult);
+        [helpstring("Determine status of the port")]
+        HRESULT _stdcall IsOpen([out, retval] VARIANT_BOOL* funcResult);
+        [helpstring("Get baudrate")]
+        HRESULT _stdcall GetBaudrate(
+                        [out] int* baudrate, 
+                        [out, retval] VARIANT_BOOL* funcResult);
+        [helpstring("Get real baudrate")]
+        HRESULT _stdcall GetRealBaudrate(
+                        [out] float* baudrate, 
+                        [out, retval] VARIANT_BOOL* funcResult);
+        [helpstring("Set baudrate")]
+        HRESULT _stdcall SetBaudrate(
+                        [in] int baudrate, 
+                        [out, retval] VARIANT_BOOL* funcResult);
+        [helpstring("Get parity")]
+        HRESULT _stdcall GetParity(
+                        [out] SerialPortParity* parity, 
+                        [out, retval] VARIANT_BOOL* funcResult);
+        [helpstring("Set parity")]
+        HRESULT _stdcall SetParity(
+                        [in] SerialPortParity parity, 
+                        [out, retval] VARIANT_BOOL* funcResult);
+        [helpstring("Get delay between bytes, ms (min step 10 mcs)")]
+        HRESULT _stdcall GetTxDelay(
+                        [out] float* txDelay, 
+                        [out, retval] VARIANT_BOOL* funcResult);
+        [helpstring("Set delay between bytes, ms (min step 10 mcs)")]
+        HRESULT _stdcall SetTxDelay(
+                        [in] float txDelay, 
+                        [out, retval] VARIANT_BOOL* funcResult);
+        [helpstring("Get options")]
+        HRESULT _stdcall GetOptions(
+                        [out] SerialPortOptions* options, 
+                        [out, retval] VARIANT_BOOL* funcResult);
+        [helpstring("Set options")]
+        HRESULT _stdcall SetOptions(
+                        [in] SerialPortOptions options, 
+                        [out, retval] VARIANT_BOOL* funcResult);
+        [helpstring("Is comm break")]
+        HRESULT _stdcall IsBreak([out, retval] VARIANT_BOOL* funcResult);
+        [helpstring("Set comm break")]
+        HRESULT _stdcall SetBreak(
+                        [in] VARIANT_BOOL virtualMode, 
+                        [out, retval] VARIANT_BOOL* funcResult);
+        [helpstring("Clear comm break")]
+        HRESULT _stdcall ClearBreak(
+                        [in] VARIANT_BOOL virtualMode, 
+                        [out, retval] VARIANT_BOOL* funcResult);
+        [helpstring("Determine status of the rx queue")]
+        HRESULT _stdcall AmountInRxQueue(
+                        [out] int* amount, 
+                        [out, retval] VARIANT_BOOL* funcResult);
+        [helpstring("Read data")]
+        HRESULT _stdcall ReadData(
+                        [out] SAFEARRAY(unsigned char)* data, 
+                        [in] int timeOut, 
+                        [out, retval] int* readedLength);
+        [helpstring("Determine status of the tx queue")]
+        HRESULT _stdcall AmountInTxQueue(
+                        [out] int* amount, 
+                        [out, retval] VARIANT_BOOL* funcResult);
+        [helpstring("Write data")]
+        HRESULT _stdcall WriteData(
+                        [in] SAFEARRAY(unsigned char)* data, 
+                        [in] SerialPortPacketType packetType, 
+                        [out, retval] int* writedLength);
+        [helpstring("Validate O-mask")]
+        HRESULT _stdcall IsOMaskSupported(
+                        [in] unsigned char oMask, 
+                        [out, retval] VARIANT_BOOL* funcResult);
+        [helpstring("Set IO pins flow of the BUS B with O-mask")]
+        HRESULT _stdcall SetIOByOMask(
+                        [in] unsigned char oMask, 
+                        [out, retval] VARIANT_BOOL* funcResult);
+        [helpstring("Set O-pins state")]
+        HRESULT _stdcall SetPinsState(
+                        [in] unsigned char state, 
+                        [out, retval] VARIANT_BOOL* funcResult);
+        [helpstring("Set O-pins by mask")]
+        HRESULT _stdcall SetPins(
+                        [in] unsigned char mask, 
+                        [out, retval] VARIANT_BOOL* funcResult);
+        [helpstring("Clear O-pins by mask")]
+        HRESULT _stdcall ClearPins(
+                        [in] unsigned char mask, 
+                        [out, retval] VARIANT_BOOL* funcResult);
+        [helpstring("Get pins state of the BUS B")]
+        HRESULT _stdcall GetPinsState(
+                        [out] unsigned char* state, 
+                        [out, retval] VARIANT_BOOL* funcResult);
+    };
+
+    [
+      odl,
+      uuid(FEFCD83F-205A-49C0-8E95-DFCFD6DCD8D3),
+      helpstring("IScanMaster Interface")
+    ]
+    interface IScanMaster : ISerialPort {
+        [helpstring("Retrive a interface status")]
+        HRESULT _stdcall IsScanMasterAPISpecifyed([out, retval] VARIANT_BOOL* funcResult);
+        [helpstring("Set a last stored state of lines")]
+        HRESULT _stdcall SetCurrentPinsState([out, retval] VARIANT_BOOL* funcResult);
+        [helpstring("Set a state of a power line")]
+        HRESULT _stdcall SetPower(
+                        [in] int enable, 
+                        [out, retval] VARIANT_BOOL* funcResult);
+        [helpstring("Set a state of a program enable line")]
+        HRESULT _stdcall SetProgramEn(
+                        [in] int enable, 
+                        [out, retval] VARIANT_BOOL* funcResult);
+        [helpstring("Retrive a power line state")]
+        HRESULT _stdcall IsPower([out, retval] VARIANT_BOOL* funcResult);
+        [helpstring("Retrive a program enable line state")]
+        HRESULT _stdcall IsProgramEn([out, retval] VARIANT_BOOL* funcResult);
+    };
+
+    [
+      odl,
+      uuid(E50F9385-F34C-47C3-A020-BEB6274F7A45),
+      helpstring("ISerial Interface"),
+      dual,
+      nonextensible,
+      oleautomation
+    ]
+    interface ISerial : IUnknown {
+        [id(0x60010000), helpstring("Retrive Serial state")]
+        HRESULT IsSerialOpen([out, retval] VARIANT_BOOL* funcResult);
+        [id(0x60010001), helpstring("Opens Serial")]
+        HRESULT OpenSerial(
+                        [in] int baudrate, 
+                        [in] VARIANT_BOOL ckPol, 
+                        [in] VARIANT_BOOL ckPha, 
+                        [out, retval] VARIANT_BOOL* funcResult);
+        [id(0x60010002), helpstring("Close Serial")]
+        HRESULT CloseSerial();
+        [id(0x60010003)]
+        HRESULT SerialSetCSLevel(
+                        [in] VARIANT_BOOL csLevel, 
+                        [out, retval] VARIANT_BOOL* funcResult);
+        [id(0x60010004)]
+        HRESULT SerialSendStart([out, retval] VARIANT_BOOL* funcResult);
+        [id(0x60010005)]
+        HRESULT SerialSendStop([out, retval] VARIANT_BOOL* funcResult);
+        [id(0x60010006), helpstring("Exchange data via Serial")]
+        HRESULT SerialExchangeData(
+                        [in] unsigned char txData, 
+                        [in] unsigned char txBitCount, 
+                        [out] unsigned char* rxData, 
+                        [out] unsigned char* rxBitCount, 
+                        [in] VARIANT_BOOL exchangeAck, 
+                        [out] VARIANT_BOOL* nonAckBit, 
+                        [out, retval] VARIANT_BOOL* funcResult);
+    };
+
+    [
+      uuid(10F271AD-D03D-4A0D-A72D-89532C2FD62F),
+      helpstring("CoDiscoSynchronizerAPI Class")
+    ]
+    coclass CoDiscoSynchronizerAPI {
+        [default] interface ISynchronizer;
+    };
+
+    [
+      odl,
+      uuid(F3F2311F-72D1-4F96-8E80-FDA2CAF6C372),
+      helpstring("ISynchronizer interface")
+    ]
+    interface ISynchronizer : IUnknown {
+        [helpstring("Get a synchronization GUID")]
+        HRESULT _stdcall GetSynchroGUID([out, retval] BSTR* synchroGUID);
+        [helpstring("Set a synchronization GUID")]
+        HRESULT _stdcall SetSynchroGUID(
+                        [in] BSTR* synchroGUID, 
+                        [out, retval] VARIANT_BOOL* funcResult);
+        [helpstring("Check a synchro event")]
+        HRESULT _stdcall IsSynchroEvent([out, retval] VARIANT_BOOL* funcResult);
+        [helpstring("Set a synchro event")]
+        HRESULT _stdcall SetSynchroEvent(
+                        [in] long synchroIndex, 
+                        [out, retval] VARIANT_BOOL* funcResult);
+        [helpstring("Provide information about a synchro event")]
+        HRESULT _stdcall GetSynchroEvent(
+                        [out] long* synchroIndex, 
+                        [out, retval] VARIANT_BOOL* funcResult);
+        [helpstring("Clear a synchro event")]
+        HRESULT _stdcall ClearSynchroEvent();
+        [helpstring("Check the pause status")]
+        HRESULT _stdcall IsPause([out, retval] VARIANT_BOOL* funcResult);
+        [helpstring("Set the pause status")]
+        HRESULT _stdcall SetPause();
+        [helpstring("Clear the pause status")]
+        HRESULT _stdcall ClearPause();
+    };
+
+    [
+      uuid(8D5B3222-2F10-4E48-94B2-19D821E0E6C3),
+      helpstring("CoDiscoLoaderAPI Class")
+    ]
+    coclass CoDiscoLoaderAPI {
+        [default] interface ILoader;
+    };
+
+    [
+      odl,
+      uuid(1DB8772F-1AB2-4C65-8142-A59275FD1FE5),
+      helpstring("ILoader interface")
+    ]
+    interface ILoader : IUnknown {
+        [helpstring("SiLabs Upload firmware")]
+        HRESULT _stdcall SiUpload(
+                        [in] int comPortNumber, 
+                        [in] int baudrate, 
+                        [in] BSTR* filePath, 
+                        [in] BSTR* deviceSerial, 
+                        [out] BSTR* deviceVersion, 
+                        [out] BSTR* deviceGUID, 
+                        [out, retval] VARIANT_BOOL* funcResult);
+        [helpstring("Get progress")]
+        HRESULT _stdcall GetProgress([out, retval] int* progress);
+        [helpstring("Get last error")]
+        HRESULT _stdcall GetLastError(
+                        [out] BSTR* errorString, 
+                        [out, retval] VARIANT_BOOL* funcResult);
+    };
+
+    [
+      uuid(98FF8CF9-1AA7-4E99-AA8D-4AF8CFC18673),
+      helpstring("Multiscope Class")
+    ]
+    coclass Multiscope {
+        [default] interface IMultiscope;
+    };
+
+    [
+      odl,
+      uuid(D7CBA3E2-ECD3-4990-9DBA-34E772B78DFF),
+      helpstring("IMultiscope Interface"),
+      dual,
+      nonextensible,
+      oleautomation
+    ]
+    interface IMultiscope : IDispatch {
+        [id(0x00000001), propget, helpstring("property Timebase")]
+        HRESULT timeBase([out, retval] double* pVal);
+        [id(0x00000001), propput, helpstring("property Timebase")]
+        HRESULT timeBase([in] double pVal);
+        [id(0x00000002), propget, helpstring("property MaxGain")]
+        HRESULT MaxGain(
+                        [in] long ChannelIndex, 
+                        [out, retval] double* pVal);
+        [id(0x00000002), propput, helpstring("property MaxGain")]
+        HRESULT MaxGain(
+                        [in] long ChannelIndex, 
+                        [in] double pVal);
+        [id(0x00000003), propget, helpstring("property Count")]
+        HRESULT count([out, retval] long* pVal);
+        [id(0x00000004), helpstring("method GetValue")]
+        HRESULT GetValue(
+                        long ChannelIndex, 
+                        long SampleIndex, 
+                        [out, retval] double* value);
+        [id(0x00000005), helpstring("method Run")]
+        HRESULT Run();
+        [id(0x00000006), helpstring("method Init")]
+        HRESULT Init(
+                        [in] long DeviceCount, 
+                        [out, retval] VARIANT_BOOL* funcResult);
+        [id(0x00000007), helpstring("method Stop")]
+        HRESULT Stop();
+        [id(0x00000008), helpstring("method UnInit")]
+        HRESULT Uninit([out, retval] VARIANT_BOOL* funcResult);
+        [id(0x00000009), propget, helpstring("property FrameLength")]
+        HRESULT FrameLength([out, retval] long* pVal);
+        [id(0x0000000a), propget, helpstring("property MaxFrameLength")]
+        HRESULT MaxFrameLength([out, retval] long* pVal);
+        [id(0x0000000a), propput, helpstring("property MaxFrameLength")]
+        HRESULT MaxFrameLength([in] long pVal);
+        [id(0x0000000b), helpstring("method GetSyncMark")]
+        HRESULT GetSyncMark(
+                        [in] long MarkIndex, 
+                        [out, retval] long* mark);
+        [id(0x0000000c), propget, helpstring("property MarkCount")]
+        HRESULT markCount([out, retval] long* pVal);
+        [id(0x0000000d), helpstring("method SetTrigger")]
+        HRESULT SetTrigger(
+                        [in] long ChannelIndex, 
+                        [in] OscTriggerType trigger, 
+                        [in] double triggerValue, 
+                        [out, retval] VARIANT_BOOL* funcResult);
+    };
+
+    [
+      uuid(C260BD7B-F583-41E1-8D06-7723D30F0EED),
+      helpstring("CoMMKey Class")
+    ]
+    coclass CoMMKey {
+        [default] interface IMMKey;
+        [default, source] dispinterface _IRCEvents;
+    };
+
+    [
+      odl,
+      uuid(18477861-8EA5-4D90-AAFB-986249A4242D),
+      helpstring("IMMKey Interface"),
+      dual,
+      nonextensible,
+      oleautomation
+    ]
+    interface IMMKey : IDispatch {
+        [id(0x00000001), helpstring("method Open")]
+        HRESULT Open(
+                        [in] BSTR keyGUID, 
+                        [out, retval] VARIANT_BOOL* funcResult);
+        [id(0x00000002), helpstring("method Close")]
+        HRESULT Close();
+        [id(0x00000003), propget, helpstring("property IsOpened")]
+        HRESULT IsOpened([out, retval] VARIANT_BOOL* pVal);
+        [id(0x00000004), propget, helpstring("property Connected")]
+        HRESULT Connected([out, retval] VARIANT_BOOL* pVal);
+    };
+
+    [
+      uuid(627CB2BE-A222-44FC-A5FE-7076CA43589F),
+      helpstring("CoBusControl Class")
+    ]
+    coclass CoBusControl {
+        [default] interface IBusControl;
+    };
+
+    [
+      odl,
+      uuid(E3CEE44A-0223-4703-83B6-857F3668FC93),
+      helpstring("IBusControl Interface"),
+      dual,
+      nonextensible,
+      oleautomation
+    ]
+    interface IBusControl : IDispatch {
+        [id(0x00000001), helpstring("method Open")]
+        HRESULT Open(
+                        [in] BSTR deviceSerial, 
+                        [in] BSTR deviceGUID, 
+                        [in] DeviceOpenMode openMode, 
+                        [in] DeviceUpdateMode updateMode, 
+                        [out, retval] VARIANT_BOOL* funcResult);
+        [id(0x00000002), helpstring("method Close")]
+        HRESULT Close();
+        [id(0x00000003), propget, helpstring("property IsOpened")]
+        HRESULT IsOpened([out, retval] VARIANT_BOOL* pVal);
+        [id(0x00000004), helpstring("method Initialize")]
+        HRESULT Initialize([in] unsigned char portIndex);
+        [id(0x00000005), helpstring("method Update")]
+        HRESULT Update(
+                        [in] unsigned char portIndex, 
+                        [in] unsigned char inValue, 
+                        [out, retval] unsigned char* outValue);
+    };
+
+    [
+      uuid(6478F218-0726-44BC-8ABB-5B76E7C040D2),
+      helpstring("CoIRReceiver Class")
+    ]
+    coclass CoIRReceiver {
+        [default] interface IIRReceiver;
+        [default, source] dispinterface _IRCEvents;
+    };
+
+    [
+      odl,
+      uuid(438E1C1B-BF71-4B1F-A1E6-2303FDD0431A),
+      helpstring("IIRReceiver Interface"),
+      dual,
+      nonextensible,
+      oleautomation
+    ]
+    interface IIRReceiver : IDispatch {
+        [id(0x00000001), helpstring("method Open")]
+        HRESULT Open(
+                        [in] BSTR deviceSerial, 
+                        [in] BSTR deviceGUID, 
+                        [in] DeviceOpenMode DeviceOpenMode, 
+                        [out, retval] VARIANT_BOOL* funcResult);
+        [id(0x00000002), helpstring("method Close")]
+        HRESULT Close();
+        [id(0x00000003), propget, helpstring("property Opened")]
+        HRESULT Opened([out, retval] VARIANT_BOOL* pVal);
+        [id(0x00000004), propget, helpstring("property Connected")]
+        HRESULT Connected([out, retval] VARIANT_BOOL* pVal);
+        [id(0x00000005), propget, helpstring("property Device")]
+        HRESULT Device([out, retval] IDevice** pVal);
+        [id(0x00000005), propput, helpstring("property Device")]
+        HRESULT Device([in] IDevice* pVal);
+    };
+};
