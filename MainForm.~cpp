@@ -27,9 +27,6 @@ unsigned long mSleep[8] = {5, 10, 20, 50, 100, 200, 500, 1000};
 
 LineItem __p1_lines[2];
 LineItem __p2_lines[3];
-LineItem __p3_lines[9];
-LineItem __p4_lines[9];
-BarItem bars[8];
 //------------------------- Thread ------------------------------------------
 __fastcall Thread::Thread()
 :TThread(true)
@@ -491,91 +488,13 @@ __fastcall TForm1::TForm1(TComponent* Owner)
         __p2_lines[2].Data = new double[1000];
         __p2_lines[2].Color = clGreen;
 
-        __p3_lines[0].Data = new double[1000];
-        __p3_lines[1].Data = new double[1000];
-        __p3_lines[2].Data = new double[1000];
-        __p3_lines[3].Data = new double[1000];
-        __p3_lines[4].Data = new double[1000];
-        __p3_lines[5].Data = new double[1000];
-        __p3_lines[6].Data = new double[1000];
-        __p3_lines[7].Data = new double[1000];
-        __p3_lines[8].Data = new double[1000];
-
-        __p4_lines[0].Data = new double[1000];
-        __p4_lines[1].Data = new double[1000];
-        __p4_lines[2].Data = new double[1000];
-        __p4_lines[3].Data = new double[1000];
-        __p4_lines[4].Data = new double[1000];
-        __p4_lines[5].Data = new double[1000];
-        __p4_lines[6].Data = new double[1000];
-        __p4_lines[7].Data = new double[1000];
-        __p4_lines[8].Data = new double[1000];
-
-        __p4_lines[8].Gain = 10;
-        __p4_lines[8].Scale = 1;
-        __p4_lines[8].Divide = 1;
-        __p4_lines[8].Color = clGray;
-        __p4_lines[8].Width = 2.0;
-
-        __p4_lines[7].Gain = 10;
-        __p4_lines[7].Scale = 1;
-        __p4_lines[7].Divide = 1;
-        __p4_lines[7].Color = clTeal;
-        __p4_lines[7].Width = 2.0;
-
-        __p4_lines[6].Gain = 10;
-        __p4_lines[6].Scale = 1;
-        __p4_lines[6].Divide = 1;
-        __p4_lines[6].Color = clPurple;
-        __p4_lines[6].Width = 2.0;
-
-        __p4_lines[5].Gain = 10;
-        __p4_lines[5].Scale = 1;
-        __p4_lines[5].Divide = 1;
-        __p4_lines[5].Color = clNavy;
-        __p4_lines[5].Width = 2.0;
-
-        __p4_lines[4].Gain = 10;
-        __p4_lines[4].Scale = 1;
-        __p4_lines[4].Divide = 1;
-        __p4_lines[4].Color = clOlive;
-        __p4_lines[4].Width = 2.0;
-
-        __p4_lines[3].Gain = 10;
-        __p4_lines[3].Scale = 1;
-        __p4_lines[3].Divide = 1;
-        __p4_lines[3].Color = clMaroon;
-        __p4_lines[3].Width = 2.0;
-
-        __p4_lines[2].Gain = 10;
-        __p4_lines[2].Scale = 1;
-        __p4_lines[2].Divide = 1;
-        __p4_lines[2].Color = clGreen;
-        __p4_lines[2].Width = 2.0;
-
-        __p4_lines[1].Gain = 10;
-        __p4_lines[1].Scale = 1;
-        __p4_lines[1].Divide = 1;
-        __p4_lines[1].Color = clBlue;
-        __p4_lines[1].Width = 2.0;
-
-        __p4_lines[0].Gain = 10;
-        __p4_lines[0].Scale = 1;
-        __p4_lines[0].Divide = 1;
-        __p4_lines[0].Color = clRed;
-        __p4_lines[0].Width = 2.0;
-
         this->DoubleBuffered = true;
 
         // Initializing Visual Component
         this->Panel1->DoubleBuffered = true;
         this->Panel2->DoubleBuffered = true;
-        this->Panel3->DoubleBuffered = true;
-        this->Panel4->DoubleBuffered = true;
         this->__p1_LineChart->Anchors = TAnchors() << akLeft << akTop << akRight << akBottom;
         this->__p2_LineChart->Anchors = TAnchors() << akLeft << akTop << akRight << akBottom;
-        this->__p3_LineChart->Anchors = TAnchors() << akLeft << akTop << akRight << akBottom;
-        this->__p4_LineChart->Anchors = TAnchors() << akLeft << akTop << akRight << akBottom;
         this->__p1_time->ItemIndex = 3;
         this->__p2_time->ItemIndex = 3;
 
@@ -613,26 +532,6 @@ __fastcall TForm1::~TForm1()
         delete[] __p2_lines[0].Data;
         delete[] __p2_lines[1].Data;
         delete[] __p2_lines[2].Data;
-
-        delete[] __p3_lines[0].Data;
-        delete[] __p3_lines[1].Data;
-        delete[] __p3_lines[2].Data;
-        delete[] __p3_lines[3].Data;
-        delete[] __p3_lines[4].Data;
-        delete[] __p3_lines[5].Data;
-        delete[] __p3_lines[6].Data;
-        delete[] __p3_lines[7].Data;
-        delete[] __p3_lines[8].Data;
-
-        delete[] __p4_lines[0].Data;
-        delete[] __p4_lines[1].Data;
-        delete[] __p4_lines[2].Data;
-        delete[] __p4_lines[3].Data;
-        delete[] __p4_lines[4].Data;
-        delete[] __p4_lines[5].Data;
-        delete[] __p4_lines[6].Data;
-        delete[] __p4_lines[7].Data;
-        delete[] __p4_lines[8].Data;
 
         // Release DiscoAPI Oscilloscope
         if(this->_IDevice != NULL)
@@ -888,13 +787,9 @@ void __fastcall TForm1::FormResize(TObject *Sender)
 {
     this->Panel1->Width = this->Width - 15;
     this->Panel2->Width = this->Panel1->Width;
-    this->Panel3->Width = this->Panel2->Width;
-    this->Panel4->Width = this->Panel3->Width;
 
     this->Panel1->Height = this->Height - 100;
     this->Panel2->Height = this->Panel1->Height;
-    this->Panel3->Height = this->Panel2->Height;
-    this->Panel4->Height = this->Panel3->Height;
 }
 //---------------------------------------------------------------------------
 void __fastcall TForm1::__p2_LineChartChange(TObject *Sender)
@@ -1133,171 +1028,6 @@ void __fastcall TForm1::__p2_CalculateData()
 void __fastcall TForm1::__p2_timeFactorChange(TObject *Sender)
 {
         __p2_CalculateData();
-}
-//---------------------------------------------------------------------------
-void __fastcall TForm1::__p3_CalculateData()
-{
-        if(!this->__p3_EnCalculate->Checked)
-                return;
-
-        this->__p3_LineChart->Seamples = 1000;
-        this->__p3_LineChart->Lines.clear();
-
-        long mc,cm1,cm2;
-        this->_IOscilloscope->GetMarkCount(this->__p2_TriggerChannel->ItemIndex, &mc);
-        this->__p3_Position->MaxValue = mc - 2;
-        this->__p3_LbCount->Caption = AnsiString(mc - 2) + ":";
-
-        this->_IOscilloscope->GetSyncMark(A, this->__p3_Position->Value, &cm1);
-        this->_IOscilloscope->GetSyncMark(A, this->__p3_Position->Value + 1, &cm2);
-
-        long _offset = (cm2-cm1) / this->__p3_cylinder->Value;
-
-        switch(this->__p3_cylinder->Value)
-        {
-                case 9: {
-                this->_IOscilloscope->GetChannelDataArray(B, __p3_lines[8].Data, cm1 + _offset * 8-(__p3_PreBuff->Value * 100), 1000, &_r);
-
-                if(__p2_invB->Checked)
-                        for(int i=0;i<1000;i++) __p3_lines[8].Data[i] *= -1.0;
-
-                __p3_lines[8].Gain = __p2_lines[1].Gain;
-                __p3_lines[8].Scale = __p2_lines[1].Scale;
-                __p3_lines[8].Divide = __p2_lines[1].Divide;
-                __p3_lines[8].Color = clGray;
-                this->__p3_LineChart->Lines.push_back(&__p3_lines[8]);
-                }
-                case 8: {
-                this->_IOscilloscope->GetChannelDataArray(B, __p3_lines[7].Data, cm1 + _offset * 7-(__p3_PreBuff->Value * 100), 1000, &_r);
-
-                if(__p2_invB->Checked)
-                        for(int i=0;i<1000;i++) __p3_lines[7].Data[i] *= -1.0;
-
-                __p3_lines[7].Gain = __p2_lines[1].Gain;
-                __p3_lines[7].Scale = __p2_lines[1].Scale;
-                __p3_lines[7].Divide = __p2_lines[1].Divide;
-                __p3_lines[7].Color = clTeal;
-                this->__p3_LineChart->Lines.push_back(&__p3_lines[7]);
-                }
-                case 7: {
-                this->_IOscilloscope->GetChannelDataArray(B, __p3_lines[6].Data, cm1 + _offset * 6-(__p3_PreBuff->Value * 100), 1000, &_r);
-
-                if(__p2_invB->Checked)
-                        for(int i=0;i<1000;i++) __p3_lines[6].Data[i] *= -1.0;
-
-                __p3_lines[6].Gain = __p2_lines[1].Gain;
-                __p3_lines[6].Scale = __p2_lines[1].Scale;
-                __p3_lines[6].Divide = __p2_lines[1].Divide;
-                __p3_lines[6].Color = clPurple;
-                this->__p3_LineChart->Lines.push_back(&__p3_lines[6]);
-                }
-                case 6: {
-                this->_IOscilloscope->GetChannelDataArray(B, __p3_lines[5].Data, cm1 + _offset * 5-(__p3_PreBuff->Value * 100), 1000, &_r);
-
-                if(__p2_invB->Checked)
-                        for(int i=0;i<1000;i++) __p3_lines[5].Data[i] *= -1.0;
-
-                __p3_lines[5].Gain = __p2_lines[1].Gain;
-                __p3_lines[5].Scale = __p2_lines[1].Scale;
-                __p3_lines[5].Divide = __p2_lines[1].Divide;
-                __p3_lines[5].Color = clNavy;
-                this->__p3_LineChart->Lines.push_back(&__p3_lines[5]);
-                }
-                case 5: {
-                this->_IOscilloscope->GetChannelDataArray(B, __p3_lines[4].Data, cm1 + _offset * 4-(__p3_PreBuff->Value * 100), 1000, &_r);
-
-                if(__p2_invB->Checked)
-                        for(int i=0;i<1000;i++) __p3_lines[4].Data[i] *= -1.0;
-
-                __p3_lines[4].Gain = __p2_lines[1].Gain;
-                __p3_lines[4].Scale = __p2_lines[1].Scale;
-                __p3_lines[4].Divide = __p2_lines[1].Divide;
-                __p3_lines[4].Color = clOlive;
-                this->__p3_LineChart->Lines.push_back(&__p3_lines[4]);
-                }
-                case 4: {
-                this->_IOscilloscope->GetChannelDataArray(B, __p3_lines[3].Data, cm1 + _offset * 3-(__p3_PreBuff->Value * 100), 1000, &_r);
-
-                if(__p2_invB->Checked)
-                        for(int i=0;i<1000;i++) __p3_lines[3].Data[i] *= -1.0;
-
-                __p3_lines[3].Gain = __p2_lines[1].Gain;
-                __p3_lines[3].Scale = __p2_lines[1].Scale;
-                __p3_lines[3].Divide = __p2_lines[1].Divide;
-                __p3_lines[3].Color = clMaroon;
-                this->__p3_LineChart->Lines.push_back(&__p3_lines[3]);
-                }
-                case 3: {
-                this->_IOscilloscope->GetChannelDataArray(B, __p3_lines[2].Data, cm1 + _offset * 2 -(__p3_PreBuff->Value * 100), 1000, &_r);
-
-                if(__p2_invB->Checked)
-                        for(int i=0;i<1000;i++) __p3_lines[2].Data[i] *= -1.0;
-
-                __p3_lines[2].Gain = __p2_lines[1].Gain;
-                __p3_lines[2].Scale = __p2_lines[1].Scale;
-                __p3_lines[2].Divide = __p2_lines[1].Divide;
-                __p3_lines[2].Color = clGreen;
-                this->__p3_LineChart->Lines.push_back(&__p3_lines[2]);
-                }
-                case 2: {
-                this->_IOscilloscope->GetChannelDataArray(B, __p3_lines[1].Data, cm1 + _offset-(__p3_PreBuff->Value * 100), 1000, &_r);
-
-                if(__p2_invB->Checked)
-                        for(int i=0;i<1000;i++) __p3_lines[1].Data[i] *= -1.0;
-
-                __p3_lines[1].Gain = __p2_lines[1].Gain;
-                __p3_lines[1].Scale = __p2_lines[1].Scale;
-                __p3_lines[1].Divide = __p2_lines[1].Divide;
-                __p3_lines[1].Color = clBlue;
-                this->__p3_LineChart->Lines.push_back(&__p3_lines[1]);
-                this->_IOscilloscope->GetChannelDataArray(B, __p3_lines[0].Data, cm1-(__p3_PreBuff->Value * 100), 1000, &_r);
-
-                if(__p2_invB->Checked)
-                        for(int i=0;i<1000;i++) __p3_lines[0].Data[i] *= -1.0;
-
-                __p3_lines[0].Gain = __p2_lines[1].Gain;
-                __p3_lines[0].Scale = __p2_lines[1].Scale;
-                __p3_lines[0].Divide = __p2_lines[1].Divide;
-                __p3_lines[0].Color = clRed;
-                this->__p3_LineChart->Lines.push_back(&__p3_lines[0]);
-                }; break;
-        }
-
-        this->__p3_LineChart->Invalidate();
-}
-//---------------------------------------------------------------------------
-void __fastcall TForm1::__p3_cylinderChange(TObject *Sender)
-{
-        this->__p3_CalculateData();
-}
-//---------------------------------------------------------------------------
-void __fastcall TForm1::__p3_PositionChange(TObject *Sender)
-{
-        this->__p3_CalculateData();
-}
-//---------------------------------------------------------------------------
-void __fastcall TForm1::__p3_EnCalculateClick(TObject *Sender)
-{
-        this->__p3_CalculateData();
-
-        int offset = this->__p3_LineChart->Height / (this->__p3_cylinder->Value + 1);
-        for(int i=0; i < this->__p3_cylinder->Value; i++)
-              __p3_lines[i].Offest = (this->__p3_LineChart->Height / 2) - offset * (i + 1);
-}
-//---------------------------------------------------------------------------
-void __fastcall TForm1::__p3_LineChartChange(TObject *Sender)
-{
-    double Ta = ((TimeGain[__p2_BaseSeampleFreqIndx] / (double)this->__p3_LineChart->Width) * this->__p3_LineChart->MarkerA.RealPosition) * this->__p2_timeFactor->Value;
-    this->__p3_Ta->Caption = AnsiString(Ta);
-    double Tb = ((TimeGain[__p2_BaseSeampleFreqIndx] / (double)this->__p3_LineChart->Width) * this->__p3_LineChart->MarkerB.RealPosition) * this->__p2_timeFactor->Value;
-    this->__p3_Tb->Caption = AnsiString(Tb);
-    this->__p3_Tba->Caption = AnsiString(Tb - Ta);
-}
-//---------------------------------------------------------------------------
-void __fastcall TForm1::__p3_vScrollBarChange(TObject *Sender)
-{
-        __p3_LineChart->VerticalOffset = (__p3_vScrollBar->Position - 10) * 100;
-        __p3_LineChart->Invalidate();
 }
 //---------------------------------------------------------------------------
 void __fastcall TForm1::_mOpenFileClick(TObject *Sender)
@@ -1562,186 +1292,6 @@ void __fastcall TForm1::_mSaveFileClick(TObject *Sender)
                 ShowMessage("Cannot save file!");
         }
         delete fs;
-}
-//---------------------------------------------------------------------------
-void __fastcall TForm1::__p4_CalculateData()
-{
-        int markerPosition = this->__p2_LineChart->MarkerA.SeamplesPosition + this->__p2_hScrollBar->Position * 100;
-        long mc = 0;
-        this->_IOscilloscope->GetMarkCount(this->__p2_TriggerChannel->ItemIndex, &mc);
-        if(mc == 0)
-                return;
-
-        for(int i=0; i < 8; i++)
-                for(int j=0; j<1000; j++)
-                     __p4_lines[i].Data[j] = 0;
-
-        long prevmark, mark;
-        prevmark = mark = 0;
-        long cyl = 0;
-        for(long i=0; i < mc && i < 1000; i++)
-        {
-               this->_IOscilloscope->GetSyncMark(this->__p2_TriggerChannel->ItemIndex, i, &mark);
-               if(mark < markerPosition)
-                        continue;
-
-               switch(cyl++)
-               {
-                        case 0: __p4_lines[0].Data[i] = 1 / (double)(mark - prevmark);
-                        if(i > this->__p4_cylinder->Value-1)
-                        {
-                                double _k = (__p4_lines[0].Data[i] - __p4_lines[0].Data[i - __p4_cylinder->Value]) / (double)(__p4_cylinder->Value);
-                                for(int j=i-1; j > i - this->__p4_cylinder->Value; j--)
-                                {
-                                    __p4_lines[0].Data[j] = __p4_lines[0].Data[j + 1] - _k;
-                                }
-                        }
-                        break;
-                        case 1: __p4_lines[1].Data[i] = 1 / (double)(mark - prevmark);
-                        if(i > this->__p4_cylinder->Value-1)
-                        {
-                                double _k = (__p4_lines[1].Data[i] - __p4_lines[1].Data[i - __p4_cylinder->Value]) / (double)(__p4_cylinder->Value);
-                                for(int j=i-1; j > i - this->__p4_cylinder->Value; j--)
-                                {
-                                    __p4_lines[1].Data[j] = __p4_lines[1].Data[j + 1] - _k;
-                                }
-                        }
-                        break;
-                        case 2: __p4_lines[2].Data[i] = 1 / (double)(mark - prevmark);
-                        if(i > this->__p4_cylinder->Value-1)
-                        {
-                                double _k = (__p4_lines[2].Data[i] - __p4_lines[2].Data[i - __p4_cylinder->Value]) / (double)(__p4_cylinder->Value);
-                                for(int j=i-1; j > i - this->__p4_cylinder->Value; j--)
-                                {
-                                    __p4_lines[2].Data[j] = __p4_lines[2].Data[j + 1] - _k;
-                                }
-                        }
-                        break;
-                        case 3: __p4_lines[3].Data[i] = 1 / (double)(mark - prevmark);
-                        if(i > this->__p4_cylinder->Value-1)
-                        {
-                                double _k = (__p4_lines[3].Data[i] - __p4_lines[3].Data[i - __p4_cylinder->Value]) / (double)(__p4_cylinder->Value);
-                                for(int j=i-1; j > i - this->__p4_cylinder->Value; j--)
-                                {
-                                    __p4_lines[3].Data[j] = __p4_lines[3].Data[j + 1] - _k;
-                                }
-                        }
-                        break;
-                        case 4: __p4_lines[4].Data[i] = 1 / (double)(mark - prevmark);
-                        if(i > this->__p4_cylinder->Value-1)
-                        {
-                                double _k = (__p4_lines[4].Data[i] - __p4_lines[4].Data[i - __p4_cylinder->Value]) / (double)(__p4_cylinder->Value);
-                                for(int j=i-1; j > i - this->__p4_cylinder->Value; j--)
-                                {
-                                    __p4_lines[4].Data[j] = __p4_lines[4].Data[j + 1] - _k;
-                                }
-                        }
-                        break;
-                        case 5: __p4_lines[5].Data[i] = 1 / (double)(mark - prevmark);
-                        if(i > this->__p4_cylinder->Value-1)
-                        {
-                                double _k = (__p4_lines[5].Data[i] - __p4_lines[5].Data[i - __p4_cylinder->Value]) / (double)(__p4_cylinder->Value);
-                                for(int j=i-1; j > i - this->__p4_cylinder->Value; j--)
-                                {
-                                    __p4_lines[5].Data[j] = __p4_lines[5].Data[j + 1] - _k;
-                                }
-                        }
-                        break;
-                        case 6: __p4_lines[6].Data[i] = 1 / (double)(mark - prevmark);
-                        if(i > this->__p4_cylinder->Value-1)
-                        {
-                                double _k = (__p4_lines[6].Data[i] - __p4_lines[6].Data[i - __p4_cylinder->Value]) / (double)(__p4_cylinder->Value);
-                                for(int j=i-1; j > i - this->__p4_cylinder->Value; j--)
-                                {
-                                    __p4_lines[6].Data[j] = __p4_lines[6].Data[j + 1] - _k;
-                                }
-                        }
-                        break;
-                        case 7: __p4_lines[7].Data[i] = 1 / (double)(mark - prevmark);
-                        if(i > this->__p4_cylinder->Value-1)
-                        {
-                                double _k = (__p4_lines[7].Data[i] - __p4_lines[7].Data[i - __p4_cylinder->Value]) / (double)(__p4_cylinder->Value);
-                                for(int j=i-1; j > i - this->__p4_cylinder->Value; j--)
-                                {
-                                    __p4_lines[7].Data[j] = __p4_lines[7].Data[j + 1] - _k;
-                                }
-                        }
-                        break;
-                        case 8: __p4_lines[8].Data[i] = 1 / (double)(mark - prevmark);
-                        if(i > this->__p4_cylinder->Value-1)
-                        {
-                                double _k = (__p4_lines[8].Data[i] - __p4_lines[8].Data[i - __p4_cylinder->Value]) / (double)(__p4_cylinder->Value);
-                                for(int j=i-1; j > i - this->__p4_cylinder->Value; j--)
-                                {
-                                    __p4_lines[8].Data[j] = __p4_lines[8].Data[j + 1] - _k;
-                                }
-                        }
-                        break;
-               }
-               prevmark = mark;
-               if(cyl == this->__p4_cylinder->Value)
-                        cyl = 0;
-        }
-
-        this->__p4_LineChart->Seamples = (mc < 1000 ? mc : 1000);
-        this->__p4_LineChart->Lines.clear();
-        switch(this->__p4_cylinder->Value)
-        {
-                        case 9: this->__p4_LineChart->Lines.push_back(&__p4_lines[8]);
-                        case 8: this->__p4_LineChart->Lines.push_back(&__p4_lines[7]);
-                        case 7: this->__p4_LineChart->Lines.push_back(&__p4_lines[6]);
-                        case 6: this->__p4_LineChart->Lines.push_back(&__p4_lines[5]);
-                        case 5: this->__p4_LineChart->Lines.push_back(&__p4_lines[4]);
-                        case 4: this->__p4_LineChart->Lines.push_back(&__p4_lines[3]);
-                        case 3: this->__p4_LineChart->Lines.push_back(&__p4_lines[2]);
-                        case 2: this->__p4_LineChart->Lines.push_back(&__p4_lines[0]); this->__p4_LineChart->Lines.push_back(&__p4_lines[1]); break;
-        }
-        this->__p4_LineChart->Invalidate();
-}
-//---------------------------------------------------------------------------
-void __fastcall TForm1::__p4_RefreshClick(TObject *Sender)
-{
-        __p4_CalculateData();
-}
-//---------------------------------------------------------------------------
-void __fastcall TForm1::__p4_cylinderChange(TObject *Sender)
-{
-        __p4_CalculateData();
-}
-//---------------------------------------------------------------------------
-void __fastcall TForm1::__p4_GainChange(TObject *Sender)
-{
-        __p4_lines[0].Gain = this->__p4_Gain->Value / 1000.0;
-        __p4_lines[1].Gain = this->__p4_Gain->Value / 1000.0;
-        __p4_lines[2].Gain = this->__p4_Gain->Value / 1000.0;
-        __p4_lines[3].Gain = this->__p4_Gain->Value / 1000.0;
-        __p4_lines[4].Gain = this->__p4_Gain->Value / 1000.0;
-        __p4_lines[5].Gain = this->__p4_Gain->Value / 1000.0;
-        __p4_lines[6].Gain = this->__p4_Gain->Value / 1000.0;
-        __p4_lines[7].Gain = this->__p4_Gain->Value / 1000.0;
-        __p4_lines[8].Gain = this->__p4_Gain->Value / 1000.0;
-        __p4_CalculateData();
-}
-//---------------------------------------------------------------------------
-void __fastcall TForm1::__p4_vScrollBarChange(TObject *Sender)
-{
-        this->__p4_LineChart->VerticalOffset = (this->__p4_vScrollBar->Position - 10) * 100;
-        this->__p4_LineChart->Invalidate();        
-}
-//---------------------------------------------------------------------------
-
-void __fastcall TForm1::__p4_OffsetChange(TObject *Sender)
-{
-        __p4_lines[0].Offest = this->__p4_Offset->Value;
-        __p4_lines[1].Offest = this->__p4_Offset->Value;
-        __p4_lines[2].Offest = this->__p4_Offset->Value;
-        __p4_lines[3].Offest = this->__p4_Offset->Value;
-        __p4_lines[4].Offest = this->__p4_Offset->Value;
-        __p4_lines[5].Offest = this->__p4_Offset->Value;
-        __p4_lines[6].Offest = this->__p4_Offset->Value;
-        __p4_lines[7].Offest = this->__p4_Offset->Value;
-        __p4_lines[8].Offest = this->__p4_Offset->Value;
-        __p4_CalculateData();
 }
 //---------------------------------------------------------------------------
 

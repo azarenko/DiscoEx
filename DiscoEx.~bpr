@@ -11,7 +11,7 @@
     <DEFFILE value=""/>
     <RESDEPEN value="$(RESFILES) MainForm.dfm"/>
     <LIBFILES value=""/>
-    <LIBRARIES value="OscCharts.lib"/>
+    <LIBRARIES value="bcbsmp.lib OscCharts.lib vclx.lib rtl.lib vcl.lib"/>
     <SPARELIBS value="vcl.lib rtl.lib vclx.lib OscCharts.lib bcbsmp.lib"/>
     <PACKAGES value="vcl.bpi rtl.bpi dbrtl.bpi adortl.bpi vcldb.bpi vclx.bpi bdertl.bpi 
       vcldbx.bpi ibxpress.bpi dsnap.bpi cds.bpi bdecds.bpi qrpt.bpi teeui.bpi 
@@ -28,7 +28,7 @@
     <RELEASELIBPATH value="$(BCB)\lib\release"/>
     <LINKER value="ilink32"/>
     <USERDEFINES value="_DEBUG"/>
-    <SYSDEFINES value="_RTLDLL;NO_STRICT;USEPACKAGES"/>
+    <SYSDEFINES value="_RTLDLL;NO_STRICT"/>
     <MAINSOURCE value="DiscoEx.cpp"/>
     <INCLUDEPATH value="&quot;C:\Program Files\Borland\CBuilder6\Imports&quot;;..\tlinechart;&quot;C:\Program Files\Borland\CBuilder6\Projects&quot;;.;$(BCB)\include;$(BCB)\include\vcl"/>
     <LIBPATH value="&quot;C:\Program Files\Borland\CBuilder6\Imports&quot;;..\tlinechart;$(BCB)\Projects\Lib;&quot;C:\Program Files\Borland\CBuilder6\Projects&quot;;.;$(BCB)\lib\obj;$(BCB)\lib"/>
@@ -48,7 +48,7 @@
     <OTHERFILES value=""/>
   </OPTIONS>
   <LINKER>
-    <ALLOBJ value="c0w32.obj $(PACKAGES) Memmgr.Lib sysinit.obj $(OBJFILES)"/>
+    <ALLOBJ value="c0w32.obj Memmgr.Lib sysinit.obj $(OBJFILES)"/>
     <ALLRES value="$(RESFILES)"/>
     <ALLLIB value="$(LIBFILES) $(LIBRARIES) import32.lib cp32mti.lib"/>
     <OTHERFILES value=""/>
@@ -91,17 +91,19 @@ ProductVersion=1.0.0.0
 Comments=
 
 [Excluded Packages]
-c:\program files\borland\cbuilder6\Projects\Bpl\TLineChart.bpl=OscCharts
+c:\program files (x86)\borland\cbuilder6\Bin\dclite60.bpl=Borland Integrated Translation Environment
 
 [HistoryLists\hlIncludePath]
-Count=2
-Item0=C:\Program Files\Borland\CBuilder6\Projects;.;E:\Projects\CPPBorland\DiscoEx;$(BCB)\include;$(BCB)\include\vcl
-Item1=C:\Program Files\Borland\CBuilder6\Projects;E:\Projects\CPPBorland\DiscoEx;$(BCB)\include;$(BCB)\include\vcl
+Count=3
+Item0=C:\Program Files\Borland\CBuilder6\Imports;..\tlinechart;C:\Program Files\Borland\CBuilder6\Projects;.;$(BCB)\include;$(BCB)\include\vcl
+Item1=C:\Program Files\Borland\CBuilder6\Projects;.;E:\Projects\CPPBorland\DiscoEx;$(BCB)\include;$(BCB)\include\vcl
+Item2=C:\Program Files\Borland\CBuilder6\Projects;E:\Projects\CPPBorland\DiscoEx;$(BCB)\include;$(BCB)\include\vcl
 
 [HistoryLists\hlLibraryPath]
-Count=2
-Item0=$(BCB)\Projects\Lib;C:\Program Files\Borland\CBuilder6\Projects;.;E:\Projects\CPPBorland\DiscoEx;$(BCB)\lib\obj;$(BCB)\lib
-Item1=C:\Program Files\Borland\CBuilder6\Projects;E:\Projects\CPPBorland\DiscoEx;$(BCB)\lib\obj;$(BCB)\lib
+Count=3
+Item0=C:\Program Files\Borland\CBuilder6\Imports;..\tlinechart;$(BCB)\Projects\Lib;C:\Program Files\Borland\CBuilder6\Projects;.;$(BCB)\lib\obj;$(BCB)\lib
+Item1=$(BCB)\Projects\Lib;C:\Program Files\Borland\CBuilder6\Projects;.;E:\Projects\CPPBorland\DiscoEx;$(BCB)\lib\obj;$(BCB)\lib
+Item2=C:\Program Files\Borland\CBuilder6\Projects;E:\Projects\CPPBorland\DiscoEx;$(BCB)\lib\obj;$(BCB)\lib
 
 [HistoryLists\hlDebugSourcePath]
 Count=1
